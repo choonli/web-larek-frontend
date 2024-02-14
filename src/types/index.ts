@@ -21,6 +21,11 @@ export interface IOrderForm {
     payment: 'online' | 'upon receipt';
 }
 
+export interface IOrder extends IOrderForm {
+    total: string;
+    items: string[];
+}
+
 export interface IOrderResult {
     id: string;
     total: string;
