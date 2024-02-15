@@ -44,6 +44,7 @@ yarn build
 
 ## Описание данных
 Данные товара
+```
 interface IProduct {
     id: string;
     description: string;
@@ -52,8 +53,10 @@ interface IProduct {
     category: string;
     price: number;
 }
+```
 
 Данные состояния приложения
+```
 interface IAppState {
     catalog: IProduct[];
     basket: string[];
@@ -61,54 +64,73 @@ interface IAppState {
     order: IOrder | null;
     loading: boolean;
 }
+```
 
 Данные формы заказа
+```
 interface IOrderForm {
     payment: string;
     adress: string;
 }
+```
 
 Данные контактной формы
+```
 interface IContactForm {
     phone: string;
     email: string;
 }
+```
 
 Данные товаров в заказе
+```
 interface IOrder extends IOrderForm {
     items: string[];
 }
+```
 
 Данные об ошибках в формах
+```
 type FormErrors = Partial<Record<keyof IOrder, string>>;
+```
 
 Данные итогового заказа
+```
 interface IOrderResult {
     id: string;
 }
+```
 
 Данные карточки товара
+```
 interface ICards extends IProduct {
     index?: string;
     buttonTitle?: string;
 }
+```
 
 Данные корзины
+```
 interface IBasketView {
     items: HTMLElement[];
     total: number;
 }
+```
 
 Данные главной страницы
+```
 interface IPage {
     counter: number;
     gallery: HTMLElement[];
 }
+```
 
 Данные событий
+```
 interface IActions {
     onClick: (event: MouseEvent) => void;
 }
+```
 
 ## Описание базовых классов
 ### 1. Базовый класс `Api`
