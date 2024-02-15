@@ -43,37 +43,72 @@ yarn build
 ```
 
 ## Описание данных
-Данные, содержащиеся в карточке товара:
-interface ICard {
-    id: string; // ID товара
-    description: string; // описание товара
-    image: string; // картинка товара
-    title: string; // название товара
-    category: string; // категория товара
-    price: number; // цена товара
-}
+Данные товара
+`interface IProduct {
+    id: string;
+    description: string;
+    image: string;
+    title: string;
+    category: string;
+    price: number;
+}`
 
-Данные, содержащиеся в корзине:
-interface IBasket {
-    title: string; // название товара
-    itemsList: ICard[]; // список товаров
-    price: number; // цена товара
-    total: string // стоимость заказа
-}
+Данные состояния приложения
+`interface IAppState {
+    catalog: IProduct[];
+    basket: string[];
+    preview: string | null;
+    order: IOrder | null;
+    loading: boolean;
+}`
 
-Данные, содержащиеся в форме оформления заказа:
-interface IOrderForm {
-    adress: string; // адрес получателя
-    phone: string; // телефон получателя
-    email: string; // электронная почта получателя
-    payment: 'online' | 'upon receipt'; // способ оплаты
-}
+Данные формы заказа
+`interface IOrderForm {
+    payment: string;
+    adress: string;
+}`
 
-Данные итогового заказа:
-interface IOrderResult {
-    id: string; // ID товара
-    total: string; // стоимость заказа
-}
+Данные контактной формы
+`interface IContactForm {
+    phone: string;
+    email: string;
+}`
+
+Данные товаров в заказе
+`interface IOrder extends IOrderForm {
+    items: string[];
+}`
+
+Данные об ошибках в формах
+`type FormErrors = Partial<Record<keyof IOrder, string>>;`
+
+Данные итогового заказа
+`interface IOrderResult {
+    id: string;
+}`
+
+Данные карточки товара
+`interface ICards extends IProduct {
+    index?: string;
+    buttonTitle?: string;
+}`
+
+Данные корзины
+`interface IBasketView {
+    items: HTMLElement[];
+    total: number;
+}`
+
+Данные главной страницы
+`interface IPage {
+    counter: number;
+    gallery: HTMLElement[];
+}`
+
+Данные событий
+`interface IActions {
+    onClick: (event: MouseEvent) => void;
+}`
 
 ## Описание базовых классов
 ### 1. Базовый класс `Api`
@@ -113,11 +148,23 @@ interface IOrderResult {
 - events: IEvents // события
 Содержит метод emitChanges(), который оповещает о том, что модель изменилась.
 
-### Классы модели данных
+## Классы модели данных
+### 1. Класс `Product`
+Данный класс представляет собой модель продукта, наследует функциональность от класса Model.
+Имеет следующие свойства:
+- id: string; // ID товара
+- description: string; // описание товара
+- image: string; // картинка товара
+- title: string; // название товара
+- category: string; // категория товара
+- price: number; // цена товара
+
+### 2. Класс `AppState`
+
 
 
 ## Классы компенентов представления
-### 1. Класс `Modal<T>`
+### 1. Класс `Modal`
 Класс Modal обеспечивает работу модального окна. Его функции: открытие и закрытие модального окна с подробной  информацией.
 Конструктор принимает следующие аргументы:
 - modalSelector // селектор модального окна
@@ -127,3 +174,34 @@ interface IOrderResult {
 - _closeByEscape() // реализует функционал закрытия по клавише Esc
 - _closeByClick() // реализует функционал закрытия по клику на крестик или за пределами модального окна
 - setEventListeners() // добавляет слушатель события на закрытие по клику
+
+### 2. Класс `Form<T>`
+Данный класс наследует класс Component. Конструктор принимает HTMl-элемент контейнера и события в качестве параметров, а также выполняет инициализацию _submit и _errors. Устанавливает обработчики события на ввод данных и отправку формы. Свойство valid устаналивает отключенное состояние для кнопки отправки формы. Свойство errors устанавливает текст ошибки.
+Содержит следующие методы: 
+- onInputChange() // следит за изменениями формы
+- render() // отрисовывает форму
+
+### 3. Класс `Basket`
+Данный класс наследует Component. Конструктор принимает HTML-элемент и события. В нем инициализируется список товаров, итоговая сумма и кнопка. Также содержит функцию, которая добавляет обработчик событий на кнопку и возвращает массив товаров.
+Класс имеет следующие свойства:
+- items - устанавливает текст для пустой корзины или вставляет товары.
+- total - устаналивает текст с итоговой суммой.
+
+### 4. Класс `Success`
+Класс является наследником Component. В конструкторе принимается HTML-контейнер и действия как аргументы. Выполняется инициализация _close и _description. Свойство description предоставляет доступ к содержимому элемента.
+
+### 5. Класс `OrderForm`
+
+
+### 6. Класс `ShopApi`
+
+
+### 7. Класс `Card`
+
+
+### 8. Класс `Page`
+
+
+### 9. Класс `BasketForm`
+
+

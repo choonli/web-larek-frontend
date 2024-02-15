@@ -1,4 +1,4 @@
-export interface ICard {
+ export interface IProduct {
     id: string;
     description: string;
     image: string;
@@ -7,26 +7,49 @@ export interface ICard {
     price: number;
 }
 
-export interface IBasket {
-    title: string;
-    itemsList: ICard[];
-    price: number;
-    total: string
+export interface IAppState {
+    catalog: IProduct[];
+    basket: string[];
+    preview: string | null;
+    order: IOrder | null;
+    loading: boolean;
 }
 
 export interface IOrderForm {
+    payment: string;
     adress: string;
+}
+
+export interface IContactForm {
     phone: string;
     email: string;
-    payment: 'online' | 'upon receipt';
 }
 
 export interface IOrder extends IOrderForm {
-    total: string;
     items: string[];
 }
 
+export type FormErrors = Partial<Record<keyof IOrder, string>>;
+
 export interface IOrderResult {
     id: string;
-    total: string;
+}
+
+export interface ICards extends IProduct {
+    index?: string;
+    buttonTitle?: string;
+}
+
+export interface IBasketView {
+    items: HTMLElement[];
+    total: number;
+}
+
+export interface IPage {
+    counter: number;
+    gallery: HTMLElement[];
+}
+
+export interface IActions {
+    onClick: (event: MouseEvent) => void;
 }

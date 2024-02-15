@@ -1,4 +1,4 @@
-import { ICard, IOrder, IOrderResult } from "../types";
+import { IProduct, IOrder, IOrderResult } from "../types";
 import { Api, ApiListResponse } from "./base/api";
 
 export default class ShopApi extends Api {
@@ -9,18 +9,18 @@ export default class ShopApi extends Api {
         this.cdn = cdn;
     }
 
-    getItemList(): Promise<ICard[]> {
+    getItemList(): Promise<IProduct[]> {
         return this.get('/product')
-        .then((data: ApiListResponse<ICard>) => 
+        .then((data: ApiListResponse<IProduct>) => 
             data.items.map((item) => ({
                 ...item,
                 image: this.cdn + item.image
             }))) 
     }
 
-    getItem(id: string): Promise<ICard> {
+    getItem(id: string): Promise<IProduct> {
         return this.get(`/product/${id}`)
-        .then((item: ICard) => ({
+        .then((item: IProduct) => ({
             ...item,
             image: this.cdn + item.image
         }))
