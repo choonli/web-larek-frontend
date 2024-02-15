@@ -43,7 +43,7 @@ yarn build
 ```
 
 ## Описание данных
-`Данные товара`
+Данные товара
 interface IProduct {
     id: string;
     description: string;
@@ -53,7 +53,7 @@ interface IProduct {
     price: number;
 }
 
-`Данные состояния приложения`
+Данные состояния приложения
 interface IAppState {
     catalog: IProduct[];
     basket: string[];
@@ -62,50 +62,50 @@ interface IAppState {
     loading: boolean;
 }
 
-`Данные формы заказа`
+Данные формы заказа
 interface IOrderForm {
     payment: string;
     adress: string;
 }
 
-`Данные контактной формы`
+Данные контактной формы
 interface IContactForm {
     phone: string;
     email: string;
 }
 
-`Данные товаров в заказе`
+Данные товаров в заказе
 interface IOrder extends IOrderForm {
     items: string[];
 }
 
-`Данные об ошибках в формах`
+Данные об ошибках в формах
 type FormErrors = Partial<Record<keyof IOrder, string>>;
 
-`Данные итогового заказа`
+Данные итогового заказа
 interface IOrderResult {
     id: string;
 }
 
-`Данные карточки товара`
+Данные карточки товара
 interface ICards extends IProduct {
     index?: string;
     buttonTitle?: string;
 }
 
-`Данные корзины`
+Данные корзины
 interface IBasketView {
     items: HTMLElement[];
     total: number;
 }
 
-`Данные главной страницы`
+Данные главной страницы
 interface IPage {
     counter: number;
     gallery: HTMLElement[];
 }
 
-`Данные событий`
+Данные событий
 interface IActions {
     onClick: (event: MouseEvent) => void;
 }
