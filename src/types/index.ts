@@ -4,7 +4,8 @@
     image: string;
     title: string;
     category: string;
-    price: number;
+    price: number | null;
+    quantity: number
 }
 
 export interface IAppState {
@@ -25,7 +26,8 @@ export interface IContactForm {
     email: string;
 }
 
-export interface IOrder extends IOrderForm {
+export interface IOrder extends IOrderForm, IContactForm {
+    total: number;
     items: string[];
 }
 
@@ -33,6 +35,7 @@ export type FormErrors = Partial<Record<keyof IOrder, string>>;
 
 export interface IOrderResult {
     id: string;
+    total: number;
 }
 
 export interface ICards extends IProduct {

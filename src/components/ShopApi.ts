@@ -1,10 +1,16 @@
 import { IProduct, IOrder, IOrderResult } from "../types";
 import { Api, ApiListResponse } from "./base/api";
 
-export default class ShopApi extends Api {
+export interface IShopApi {
+    getItemList: () => Promise<IProduct[]>;
+    getItem: (id: string) => Promise<IProduct>;
+    orderItems: (order: IOrder) => Promise<IOrderResult>
+}
+
+export default class ShopApi extends Api implements IShopApi {
     readonly cdn: string;
     
-    constructor(cdn: string, baseUrl: string, options: RequestInit = {}) {
+    constructor(cdn: string, baseUrl: string, options?: RequestInit) {
         super(baseUrl, options);
         this.cdn = cdn;
     }
