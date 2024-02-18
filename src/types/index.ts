@@ -18,7 +18,7 @@ export interface IAppState {
 
 export interface IOrderForm {
     payment: string;
-    adress: string;
+    address: string;
 }
 
 export interface IContactForm {
@@ -55,4 +55,9 @@ export interface IPage {
 
 export interface IActions {
     onClick: (event: MouseEvent) => void;
+}
+
+export interface IOrderResult {
+    id: string;
+    total: number;
 }

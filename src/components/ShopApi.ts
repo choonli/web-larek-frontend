@@ -32,7 +32,7 @@ export default class ShopApi extends Api implements IShopApi {
         }))
     }
 
-    orderItems(order: IOrder) {
+    orderItems(order: IOrder): Promise<IOrderResult> {
         return this.post('/order', order)
         .then((data: IOrderResult) => data);
     }

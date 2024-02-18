@@ -26,8 +26,8 @@ export default class Order extends Form<IOrderForm> {
         }
     }
 
-    set adress(value: string) {
-        (this.container.elements.namedItem('adress') as HTMLInputElement).value = value;
+    set address(value: string) {
+        (this.container.elements.namedItem('address') as HTMLInputElement).value = value;
     }
 
     toggleButton(toggleOn: HTMLElement) {

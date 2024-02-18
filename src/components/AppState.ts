@@ -12,18 +12,18 @@ export default class AppState extends Model<IAppState> {
     loading: boolean;
     order: IOrder = {
         payment: 'online',
-        adress: '',
+        address: '',
         email: '',
         phone: '',
         total: 0,
         items: []
-    }
+    };
     preview: string | null;
     formErrors: FormErrors = {};
 
     refreshBasket() {
-        this.emitChanges('counter:change', this.basket);
-        this.emitChanges('counter:change', this.basket);
+        this.emitChanges('counter:changed', this.basket);
+        this.emitChanges('basket:changed', this.basket);
     }
 
     clearBasket() {
@@ -34,7 +34,7 @@ export default class AppState extends Model<IAppState> {
     clearOrder() {
         this.order = {
             payment: 'online',
-            adress: '',
+            address: '',
             email: '',
             phone: '',
             total: 0,
@@ -49,7 +49,7 @@ export default class AppState extends Model<IAppState> {
 
     setPreview(item: Product) {
         this.preview = item.id;
-        this.emitChanges('preview:change');
+        this.emitChanges('preview:changed');
     }
 
     setContactForm(field: keyof IContactForm, value: string) {
@@ -81,8 +81,8 @@ export default class AppState extends Model<IAppState> {
     
     validateOrderForm() {
         const errors: typeof this.formErrors = {};
-        if (!this.order.adress) {
-            errors.adress = 'Необходимо указать адрес доставки';
+        if (!this.order.address) {
+            errors.address = 'Необходимо указать адрес доставки';
         }
         this.formErrors = errors;
         this.events.emit('formErrors:change', this.formErrors);
