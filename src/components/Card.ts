@@ -1,4 +1,5 @@
 import { IActions, ICards } from "../types";
+import { cardCategory } from "../utils/constants";
 import { ensureElement } from "../utils/utils";
 import { Component } from "./base/Component";
 
@@ -20,7 +21,7 @@ export default class Card extends Component<ICards> {
         this._text = container.querySelector('.card__text');
         this._button = container.querySelector('.card__button');
         this._index = container.querySelector('.basket__item-index');
-        this. _category = container.querySelector('.card__category')
+        this._category = container.querySelector('.card__category')
 
         if (actions?.onClick && this._button) {
             this._button.addEventListener('click', actions.onClick);
@@ -45,7 +46,7 @@ export default class Card extends Component<ICards> {
 
     set buttonText(value: string) {
         if (this._button) {
-            this._button.textContent = value;
+            this.setText(this._button, value);
         }
     }
 
@@ -67,7 +68,7 @@ export default class Card extends Component<ICards> {
     }
 
     set index(value: string) {
-        this._index.textContent = value;
+        this.setText(this._index, value);
     }
 
     get index(): string {
@@ -75,7 +76,8 @@ export default class Card extends Component<ICards> {
     }
 
     set category(value: string) {
-        this._category.textContent = value;
+        this.setText(this._category, value);
+        this._category.classList.add(cardCategory[value])
     }
 
     get category(): string {

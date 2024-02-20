@@ -8,7 +8,7 @@ import Product from './components/Product';
 import ShopApi from './components/ShopApi';
 import { EventEmitter } from './components/base/events';
 import Modal from './components/common/Modal';
-import Success from './components/common/Success';
+import Success from './components/Success';
 import './scss/styles.scss';
 import { IContactForm, IOrder, IOrderForm } from './types';
 import { API_URL, CDN_URL, PaymentTypes } from './utils/constants';
@@ -205,16 +205,12 @@ events.on('order:open', () => {
 })
 
 // изменилось состояние валидации формы
-events.on('formErrors:change', (errors: Partial<IOrderForm>) => {
-    const { payment, address } = errors;
+events.on('formErrors:change', (errors: Partial<IOrder>) => {
+    const { payment, address, email, phone } = errors;
     order.valid = !payment && !address;
+    order.valid = !email && !phone;
     order.errors = Object.values({ payment, address }).filter(i => !!i).join('; ');
-})
-
-events.on('formsErrors:change', (errors: Partial<IContactForm>) => {
-    const { email, phone } = errors;
-    contactForm.valid = !email && !phone;
-    contactForm.errors = Object.values({phone, email}).filter(i => !!i).join('; ')
+    contactForm.errors = Object.values({ phone, email }).filter(i => !!i).join('; ')
 })
 
 // изменилось одно из полей

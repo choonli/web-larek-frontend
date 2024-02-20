@@ -1,5 +1,5 @@
-import { ensureElement } from "../../utils/utils";
-import { Component } from "../base/Component";
+import { ensureElement } from "../utils/utils";
+import { Component } from "./base/Component";
 
 interface ISuccess {
     total: number;
@@ -29,6 +29,6 @@ export default class Success extends Component<ISuccess> {
     }
 
     set description(value: string) {
-        this._description.textContent = `Списано ${value} синапсов`
+        this.setText(this._description, `Списано ${value} синапсов`);
     }
 }

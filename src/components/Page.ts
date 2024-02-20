@@ -25,7 +25,7 @@ export default class Page extends Component<IPage> {
     };
 
     set counter(value: number) {
-        this._counter.textContent = String(value);
+        this.setText(this._counter, value);
     }
 
     set gallery(items: HTMLElement[]) {

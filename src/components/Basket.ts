@@ -22,7 +22,6 @@ export default class Basket extends Component<IBasketView> {
         }
 
         this.items = [];
-        this._button.disabled = true;
     }
 
     toggleButton(isDisabled: boolean){
