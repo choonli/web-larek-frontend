@@ -109,7 +109,6 @@ events.on('modal:close', unblockModal);
 //     })
 // };
 
-// Функция для обработки события открытия карточки товара
 const handlePreviewChanged = (item: Product) => {
     const card = new Card(cloneTemplate(previewTemplate), {
       onClick: () => {
@@ -117,6 +116,11 @@ const handlePreviewChanged = (item: Product) => {
         card.buttonText = (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины'
       }
     });
+
+    const buttonText = (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины';
+
+    card.buttonText = buttonText;
+
     modal.render({
       content: card.render({
         title: item.title,
@@ -124,7 +128,7 @@ const handlePreviewChanged = (item: Product) => {
         image: item.image,
         price: item.price,
         category: item.category,
-        buttonTitle: (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины'
+        buttonTitle: buttonText
       })
     })
 };
