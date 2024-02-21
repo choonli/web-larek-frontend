@@ -50,6 +50,10 @@ export default class Card extends Component<ICards> {
         }
     }
 
+    get buttonText(): string {
+        return this._button.textContent || '';
+    }
+
     set title(value: string) {
         this.setText(this._title, value);
     }

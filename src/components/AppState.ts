@@ -1,6 +1,7 @@
 import { FormErrors, IAppState, IContactForm, IOrder, IOrderForm, IProduct } from "../types";
 import Product from "./Product";
 import { Model } from "./base/Model";
+import Card from "./Card";
 
 export type CatalogChangeEvent = {
     catalog: IProduct[];
@@ -20,6 +21,7 @@ export default class AppState extends Model<IAppState> {
     };
     preview: string | null;
     formErrors: FormErrors = {};
+    currentCard: Card | null = null;
 
     refreshBasket() {
         this.emitChanges('counter:changed', this.basket);
@@ -85,7 +87,7 @@ export default class AppState extends Model<IAppState> {
             errors.address = 'Необходимо указать адрес доставки';
         }
         this.formErrors = errors;
-        this.events.emit('formErrors:change', this.formErrors);
+        this.events.emit('orderErrors:change', this.formErrors);
         return Object.keys(errors).length === 0;
     }
 

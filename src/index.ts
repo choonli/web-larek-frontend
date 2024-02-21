@@ -74,27 +74,6 @@ function getItems() {
 
 getItems();
 
-
-// функция для обработки выбора товара
-const handleCardSelect = (item: Product) => {
-    const cardModal = new Card(cloneTemplate(previewTemplate), {
-        onClick: () => {
-            events.emit('product:toggle', item);
-            cardModal.buttonText = (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины';
-        }
-    });
-    modal.render({
-        content: cardModal.render({
-            title: item.title,
-            description: item.description,
-            image: item.image,
-            price: item.price,
-            category: item.category,
-            buttonTitle: (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины'
-        })
-    });
-}
-
 // блокируем прокрутку страницы если открыта модалка
 function blockModal() {
     page.locked = true;
@@ -109,28 +88,49 @@ function unblockModal() {
 events.on('modal:open', blockModal);
 events.on('modal:close', unblockModal);
 
-// подписка на событие выбора товара
-events.on('card:select', handleCardSelect);
 
 // изменение предварительного просмотра
-function handlePreviewChanged(item: Product) {
+// const handlePreviewChanged = (item: Product) => {
+//     const card = new Card(cloneTemplate(previewTemplate), {
+//       onClick: () => {
+//         events.emit('product:toggle', item);
+//         card.buttonText = (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины'
+//       }
+//     });
+//     modal.render({
+//       content: card.render({
+//         title: item.title,
+//         description: item.description,
+//         image: item.image,
+//         price: item.price,
+//         category: item.category,
+//         buttonTitle: (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины'
+//       })
+//     })
+// };
+
+// Функция для обработки события открытия карточки товара
+const handlePreviewChanged = (item: Product) => {
     const card = new Card(cloneTemplate(previewTemplate), {
-        onClick: () => {
-            events.emit('product:toggle', item);
-            card.buttonText = (appState.basket.indexOf(item) < 0) ? 'В корзину'  : 'Удалить из корзины'
-        }
-    })
+      onClick: () => {
+        events.emit('product:toggle', item);
+        card.buttonText = (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины'
+      }
+    });
     modal.render({
-        content: card.render({
-            title: item.title,
-            description: item.description,
-            image: item.image,
-            price: item.price,
-            category: item.category,
-            buttonTitle: (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины'
-        })
+      content: card.render({
+        title: item.title,
+        description: item.description,
+        image: item.image,
+        price: item.price,
+        category: item.category,
+        buttonTitle: (appState.basket.indexOf(item) < 0) ? 'В корзину' : 'Удалить из корзины'
+      })
     })
-}
+};
+
+// Подписываемся на событие открытия карточки товара
+events.on('card:select', handlePreviewChanged);
 
 events.on('basket:open', () => {
     modal.render({
@@ -205,11 +205,15 @@ events.on('order:open', () => {
 })
 
 // изменилось состояние валидации формы
-events.on('formErrors:change', (errors: Partial<IOrder>) => {
-    const { payment, address, email, phone } = errors;
+events.on('orderErrors:change', (errors: Partial<IOrderForm>) => {
+    const { payment, address } = errors;
     order.valid = !payment && !address;
-    order.valid = !email && !phone;
     order.errors = Object.values({ payment, address }).filter(i => !!i).join('; ');
+})
+
+events.on('formErrors:change', (errors: Partial<IContactForm>) => {
+    const { phone, email } = errors;
+    order.valid = !email && !phone;
     contactForm.errors = Object.values({ phone, email }).filter(i => !!i).join('; ')
 })
 
@@ -238,7 +242,7 @@ events.on('contacts:submit', handleOrderSubmit);
 
 function handleOrderSubmit() {
     api.orderItems(appState.order)
-      .then((result) => {
+    .then((result) => {
         appState.clearBasket();
         appState.clearOrder();
         const success = new Success(cloneTemplate(successTemplate), {
@@ -252,10 +256,10 @@ function handleOrderSubmit() {
           content: success.render({})
         });
       })
-      .catch(err => {
+    .catch(err => {
         console.error(err);
-      });
-  }
+    });
+}
 
 events.on('payment:toggle', (target: HTMLElement) => {
     if (!target.classList.contains('button_alt-active')) {
